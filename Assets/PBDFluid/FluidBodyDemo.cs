@@ -5,7 +5,7 @@ using System.Collections.Generic;
 namespace PBDFluid
 {
 
-    public enum SIMULATION_SIZE {  LOW, MEDIUM, HIGH }
+    public enum SIMULATION_SIZE {  LOW, MEDIUM, HIGH, SUPER_HIGH }
 
     public class FluidBodyDemo : MonoBehaviour
     {
@@ -73,6 +73,9 @@ namespace PBDFluid
 
                 case SIMULATION_SIZE.HIGH:
                     radius = 0.06f;
+                    break;
+                case SIMULATION_SIZE.SUPER_HIGH:
+                    radius = 0.04f;
                     break;
             }
 

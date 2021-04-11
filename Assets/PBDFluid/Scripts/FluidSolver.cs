@@ -8,7 +8,7 @@ namespace PBDFluid
     public class FluidSolver : IDisposable
     {
 
-        private const int THREADS = 128;
+        private const int THREAD_1D = 1024;
         private const int READ = 0;
         private const int WRITE = 1;
 
@@ -42,8 +42,8 @@ namespace PBDFluid
             Kernel = new SmoothingKernel(cellSize);
 
             int numParticles = Body.NumParticles;
-            Groups = numParticles / THREADS;
-            if (numParticles % THREADS != 0) Groups++;
+            Groups = numParticles / THREAD_1D;
+            if (numParticles % THREAD_1D != 0) Groups++;
 
             m_shader = Resources.Load("FluidSolver") as ComputeShader;
 

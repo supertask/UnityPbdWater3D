@@ -48,7 +48,7 @@ float ViscLapKernel(float len2)
 	return ViscLap * (KernelRadius - r);
 }
 
-#define THREADS 128
+#define THREAD_1D 1024
 #define PI 3.14159265359
 
 RWStructuredBuffer<float4> Positions;
@@ -86,7 +86,7 @@ float3 PredictedPosition(int i, float3 velocity)
 
 #pragma kernel PredictPositions
 
-[numthreads(THREADS,1,1)]
+[numthreads(THREAD_1D,1,1)]
 void PredictPositions(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)
@@ -217,7 +217,7 @@ void ComputeDensityAndPressure(int id, float3 pi, out float density, out float p
 
 #pragma kernel ComputeDensity
 
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void ComputeDensity(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)
@@ -300,7 +300,7 @@ float3 SolveDensity(int id, float3 pi, float pressure)
 
 #pragma kernel SolveConstraint
 
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void SolveConstraint(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)
@@ -316,7 +316,7 @@ void SolveConstraint(int id : SV_DispatchThreadID)
 
 #pragma kernel UpdateVelocities
 
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void UpdateVelocities(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)
@@ -376,7 +376,7 @@ float3 ComputeViscosity(int id, float3 pi)
 
 #pragma kernel SolveViscosity
 
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void SolveViscosity(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)
@@ -391,7 +391,7 @@ void SolveViscosity(int id : SV_DispatchThreadID)
 
 #pragma kernel UpdatePositions
 
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void UpdatePositions(int id : SV_DispatchThreadID)
 {
 	if (id < NumParticles)

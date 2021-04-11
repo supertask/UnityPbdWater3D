@@ -25,13 +25,15 @@ namespace PBDFluid
         //1024 * 1024 = 1048576
 
         //Num threads for the copy and fill kernels.
-        private const int THREADS = 128;
+        private const int THREAD_1D = 1024;
 
         // The number of elements to sort is limited to an even power of 2.
         // the min/max range of particles for these sizes are shown above.
         // If you need to resize these you must also change the same values in the shader.
         // TODO - Have a shader for each range and automatically pick which one to use.
-        private const int BITONIC_BLOCK_SIZE = 512;
+
+        // private const int BITONIC_BLOCK_SIZE = 512;
+        private const int BITONIC_BLOCK_SIZE = 1024;
         private const int TRANSPOSE_BLOCK_SIZE = 16;
 
         public const int MAX_ELEMENTS = BITONIC_BLOCK_SIZE * BITONIC_BLOCK_SIZE;
@@ -81,7 +83,7 @@ namespace PBDFluid
             m_shader.SetInt("Width", count);
             m_shader.SetBuffer(m_fillKernel, "Input", input);
             m_shader.SetBuffer(m_fillKernel, "Data", m_buffer1);
-            m_shader.Dispatch(m_fillKernel, NumElements / THREADS, 1, 1);
+            m_shader.Dispatch(m_fillKernel, NumElements / THREAD_1D, 1, 1);
 
             int MATRIX_HEIGHT = NumElements / BITONIC_BLOCK_SIZE;
 
@@ -133,7 +135,7 @@ namespace PBDFluid
             m_shader.SetInt("Width", count);
             m_shader.SetBuffer(m_copyKernel, "Input", m_buffer1);
             m_shader.SetBuffer(m_copyKernel, "Data", input);
-            m_shader.Dispatch(m_copyKernel, NumElements / THREADS, 1, 1);
+            m_shader.Dispatch(m_copyKernel, NumElements / THREAD_1D, 1, 1);
         }
 
         private int FindNumElements(int count)

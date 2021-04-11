@@ -9,7 +9,7 @@ namespace PBDFluid
     public class RenderVolume : IDisposable
     {
 
-        private const int THREADS = 8;
+        private const int THREAD_3D = 8;
 
         public float PixelSize { get; private set; }
 
@@ -43,14 +43,14 @@ namespace PBDFluid
             int height = (int)Bounds.size.y;
             int depth = (int)Bounds.size.z;
 
-            int groupsX = width / THREADS;
-            if (width % THREADS != 0) groupsX++;
+            int groupsX = width / THREAD_3D;
+            if (width % THREAD_3D != 0) groupsX++;
 
-            int groupsY = height / THREADS;
-            if (height % THREADS != 0) groupsY++;
+            int groupsY = height / THREAD_3D;
+            if (height % THREAD_3D != 0) groupsY++;
 
-            int groupsZ = depth / THREADS;
-            if (depth % THREADS != 0) groupsZ++;
+            int groupsZ = depth / THREAD_3D;
+            if (depth % THREAD_3D != 0) groupsZ++;
 
             Groups = new Vector3Int(groupsX, groupsY, groupsZ);
 

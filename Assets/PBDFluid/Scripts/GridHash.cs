@@ -8,7 +8,7 @@ namespace PBDFluid
     public class GridHash : IDisposable
     {
 
-        private const int THREADS = 128;
+        private const int THREAD_1D = 1024;
         private const int READ = 0;
         private const int WRITE = 1;
 
@@ -47,8 +47,8 @@ namespace PBDFluid
             CellSize = cellSize;
             InvCellSize = 1.0f / CellSize;
 
-            Groups = TotalParticles / THREADS;
-            if (TotalParticles % THREADS != 0) Groups++;
+            Groups = TotalParticles / THREAD_1D;
+            if (TotalParticles % THREAD_1D != 0) Groups++;
 
             Vector3 min, max;
             min = bounds.min;

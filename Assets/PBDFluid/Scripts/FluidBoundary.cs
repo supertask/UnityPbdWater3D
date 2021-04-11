@@ -8,7 +8,7 @@ namespace PBDFluid
 
     public class FluidBoundary : IDisposable
     {
-        private const int THREADS = 128;
+        private const int THREAD_1D = 1024;
 
         public int NumParticles { get; private set; }
 
@@ -140,8 +140,8 @@ namespace PBDFluid
 
             shader.SetBuffer(kernel, "Boundary", Positions);
 
-            int groups = NumParticles / THREADS;
-            if (NumParticles % THREADS != 0) groups++;
+            int groups = NumParticles / THREAD_1D;
+            if (NumParticles % THREAD_1D != 0) groups++;
 
             //Fills the boundarys psi array so the fluid can
             //collide against it smoothly. The original computes

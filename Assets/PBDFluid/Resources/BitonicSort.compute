@@ -1,7 +1,8 @@
 ﻿
-#define THREADS 128
+#define THREAD_1D 1024
 
-#define BITONIC_BLOCK_SIZE 512
+//#define BITONIC_BLOCK_SIZE 512
+#define BITONIC_BLOCK_SIZE 1024
 #define TRANSPOSE_BLOCK_SIZE 16
 
 int Level;
@@ -48,7 +49,7 @@ void MatrixTranspose(int3 Gid : SV_GroupID, int3 DTid : SV_DispatchThreadID, int
 }
 
 #pragma kernel Fill
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void Fill(int DTid : SV_DispatchThreadID)
 {
 	if (DTid < Width)
@@ -58,7 +59,7 @@ void Fill(int DTid : SV_DispatchThreadID)
 }
 
 #pragma kernel Copy
-[numthreads(THREADS, 1, 1)]
+[numthreads(THREAD_1D, 1, 1)]
 void Copy(int DTid : SV_DispatchThreadID)
 {
 	if (DTid < Width)

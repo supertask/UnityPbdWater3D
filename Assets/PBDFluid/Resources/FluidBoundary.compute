@@ -28,7 +28,7 @@ float Poly6Kernel(float len2)
 	return Poly6 * Pow3(KernelRadius2 - len2);
 }
 
-#define THREADS 128
+#define THREAD_1D 1024
 #define PI 3.14159265359
 
 RWStructuredBuffer<float4> Boundary;
@@ -94,7 +94,7 @@ float Compute(int id, float3 pi)
 }
 
 #pragma kernel ComputePsi
-[numthreads(THREADS,1,1)]
+[numthreads(THREAD_1D,1,1)]
 void ComputePsi(int id : SV_DispatchThreadID)
 {
 
